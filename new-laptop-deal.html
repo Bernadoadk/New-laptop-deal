@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEW LAPTOP DEAL — PC Gaming Bénin</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#050508;--bg2:#0a0a10;--panel:#12121e;--border:#1e1e32;
+  --accent:#00f0ff;--accent2:#ff3c00;--accent3:#7000ff;--gold:#ffd700;
+  --text:#e0e0f0;--muted:#6060a0;
+  --glow:0 0 20px rgba(0,240,255,0.3);--glow2:0 0 20px rgba(255,60,0,0.3);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:16px;overflow-x:hidden;cursor:crosshair}
+
+/* CURSOR */
+.cursor-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 10px var(--accent)}
+
+/* FX */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:0.35}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.025) 2px,rgba(0,0,0,0.025) 4px);pointer-events:none;z-index:9997}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:68px;background:rgba(5,5,8,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;letter-spacing:0.12em;color:var(--accent);text-shadow:var(--glow);cursor:pointer}
+.nav-logo span{color:var(--accent2)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;cursor:pointer;transition:color 0.2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent);transition:width 0.3s}
+.nav-links a:hover,.nav-links a.active{color:var(--accent)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.cart-btn{font-family:'Orbitron',monospace;font-size:0.7rem;font-weight:700;letter-spacing:0.08em;color:var(--bg);background:var(--accent);border:none;padding:0.55rem 1.2rem;cursor:pointer;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:all 0.2s;position:relative}
+.cart-btn:hover{background:var(--accent2);box-shadow:var(--glow2)}
+.cart-count{position:absolute;top:-6px;right:-6px;background:var(--accent2);color:#fff;font-family:'Share Tech Mono',monospace;font-size:0.6rem;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;display:none}
+
+/* TICKER */
+.ticker-wrap{background:var(--accent);overflow:hidden;padding:0.55rem 0;white-space:nowrap;margin-top:68px}
+.ticker{display:inline-block;animation:ticker 22s linear infinite;font-family:'Share Tech Mono',monospace;font-size:0.68rem;letter-spacing:0.15em;color:var(--bg)}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* PAGE SYSTEM */
+.page{display:none;min-height:calc(100vh - 68px)}
+.page.active{display:block}
+
+/* ===================== HOME ===================== */
+.hero{min-height:90vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:4rem 3rem 3rem}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,240,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,0.03) 1px,transparent 1px);background-size:60px 60px;animation:gridPulse 4s ease-in-out infinite}
+@keyframes gridPulse{0%,100%{opacity:0.5}50%{opacity:1}}
+.hero-glow{position:absolute;top:15%;left:38%;width:700px;height:700px;background:radial-gradient(circle,rgba(0,240,255,0.05) 0%,transparent 70%);pointer-events:none}
+.hero-glow2{position:absolute;top:45%;left:5%;width:400px;height:400px;background:radial-gradient(circle,rgba(112,0,255,0.07) 0%,transparent 70%);pointer-events:none}
+.hero-content{position:relative;z-index:2;max-width:680px}
+.hero-tag{font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:var(--accent);letter-spacing:0.28em;margin-bottom:1.4rem;display:flex;align-items:center;gap:0.75rem;opacity:0;animation:fadeUp 0.6s 0.2s forwards}
+.hero-tag::before{content:'';display:inline-block;width:28px;height:1px;background:var(--accent);box-shadow:var(--glow)}
+.hero-title{font-family:'Orbitron',monospace;font-size:clamp(2.2rem,5.5vw,4.5rem);font-weight:900;line-height:1.05;letter-spacing:-0.02em;margin-bottom:1.3rem;opacity:0;animation:fadeUp 0.6s 0.4s forwards}
+.hero-title .l1{color:var(--text)}
+.hero-title .l2{color:var(--accent);text-shadow:var(--glow);display:block}
+.hero-title .l3{color:var(--accent2);text-shadow:var(--glow2);display:block}
+.hero-sub{font-size:1.1rem;color:var(--muted);line-height:1.7;margin-bottom:2.2rem;max-width:500px;opacity:0;animation:fadeUp 0.6s 0.6s forwards}
+.hero-sub strong{color:var(--text)}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fadeUp 0.6s 0.8s forwards}
+.hero-stats{position:absolute;right:3rem;bottom:3rem;display:flex;gap:3rem;opacity:0;animation:fadeUp 0.6s 1s forwards}
+.stat-num{font-family:'Orbitron',monospace;font-size:1.9rem;font-weight:900;color:var(--accent);text-shadow:var(--glow);line-height:1}
+.stat-label{font-size:0.72rem;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;margin-top:0.25rem}
+
+/* BTNs */
+.btn-primary{font-family:'Orbitron',monospace;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;color:var(--bg);background:var(--accent);border:none;padding:0.95rem 2rem;cursor:pointer;clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);transition:all 0.2s;text-decoration:none;display:inline-block;box-shadow:0 0 25px rgba(0,240,255,0.18)}
+.btn-primary:hover{background:var(--text);box-shadow:0 0 40px rgba(0,240,255,0.4);transform:translateY(-2px)}
+.btn-secondary{font-family:'Orbitron',monospace;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;color:var(--accent);background:transparent;border:1px solid var(--accent);padding:0.95rem 2rem;cursor:pointer;clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);transition:all 0.2s;text-decoration:none;display:inline-block}
+.btn-secondary:hover{background:rgba(0,240,255,0.08);box-shadow:var(--glow)}
+
+/* HOME SECTIONS */
+.home-section{padding:5rem 3rem;max-width:1400px;margin:0 auto}
+.sec-tag{font-family:'Share Tech Mono',monospace;font-size:0.68rem;color:var(--accent2);letter-spacing:0.28em;text-transform:uppercase;margin-bottom:0.7rem}
+.sec-title{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,2.8vw,2.2rem);font-weight:900;color:var(--text);line-height:1.1;margin-bottom:2.5rem}
+.sec-title em{font-style:normal;color:var(--accent);text-shadow:var(--glow)}
+.sec-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
+.see-all{font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--accent);letter-spacing:0.1em;cursor:pointer;border-bottom:1px solid transparent;transition:border-color 0.2s;background:none;border-top:none;border-left:none;border-right:none;padding-bottom:2px}
+.see-all:hover{border-bottom-color:var(--accent)}
+
+/* PRODUCT CARDS */
+.grid-4{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
+.product-card{background:var(--panel);border:1px solid var(--border);overflow:hidden;transition:all 0.3s;cursor:pointer;position:relative}
+.product-card:hover{border-color:var(--accent);box-shadow:var(--glow);transform:translateY(-4px)}
+.product-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent3),var(--accent),var(--accent2));opacity:0;transition:opacity 0.3s}
+.product-card:hover::before{opacity:1}
+.card-img{height:170px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:3.5rem;position:relative;overflow:hidden}
+.card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,var(--panel))}
+.card-badge{position:absolute;top:10px;right:10px;font-family:'Share Tech Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;padding:0.18rem 0.45rem;z-index:2}
+.badge-new{background:var(--accent);color:var(--bg)}
+.badge-hot{background:var(--accent2);color:var(--bg)}
+.badge-top{background:var(--gold);color:var(--bg)}
+.card-body{padding:1.1rem}
+.card-cat{font-family:'Share Tech Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.35rem}
+.card-name{font-family:'Orbitron',monospace;font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:0.45rem;line-height:1.3}
+.card-desc{font-size:0.8rem;color:var(--muted);line-height:1.5;margin-bottom:0.9rem}
+.card-footer{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap}
+.card-price{font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:var(--accent);text-shadow:var(--glow)}
+.card-price small{font-size:0.6rem;color:var(--muted);font-weight:400;display:block;font-family:'Rajdhani',sans-serif;letter-spacing:0}
+.card-actions{display:flex;gap:0.4rem}
+.card-btn{font-family:'Orbitron',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.06em;color:var(--bg);background:var(--accent);border:none;padding:0.45rem 0.9rem;cursor:pointer;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);transition:all 0.2s}
+.card-btn:hover{background:var(--accent2)}
+.card-btn-ghost{font-family:'Orbitron',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.06em;color:var(--accent);background:transparent;border:1px solid var(--accent);padding:0.45rem 0.9rem;cursor:pointer;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);transition:all 0.2s}
+.card-btn-ghost:hover{background:rgba(0,240,255,0.1)}
+
+/* CONFIG PREVIEW ON HOME */
+.config-preview-wrap{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:5rem 0}
+.config-preview-inner{max-width:1400px;margin:0 auto;padding:0 3rem}
+.config-mini-layout{display:grid;grid-template-columns:1fr 360px;gap:2.5rem;align-items:start}
+.preset-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:1.5rem}
+.preset-btn{font-family:'Orbitron',monospace;font-size:0.62rem;font-weight:700;letter-spacing:0.06em;padding:0.7rem 1rem;border:1px solid var(--border);background:var(--panel);color:var(--muted);cursor:pointer;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);transition:all 0.2s;text-align:center}
+.preset-btn.active,.preset-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(0,240,255,0.05);box-shadow:var(--glow)}
+.preset-btn.fire.active,.preset-btn.fire:hover{border-color:var(--accent2);color:var(--accent2);background:rgba(255,60,0,0.05);box-shadow:var(--glow2)}
+.preset-btn.ultra.active,.preset-btn.ultra:hover{border-color:var(--gold);color:var(--gold);background:rgba(255,215,0,0.05);box-shadow:0 0 20px rgba(255,215,0,0.25)}
+.comp-rows{display:flex;flex-direction:column;gap:0.6rem}
+.comp-row{background:var(--panel);border:1px solid var(--border);padding:1rem 1.3rem;display:grid;grid-template-columns:110px 1fr auto;align-items:center;gap:1rem;clip-path:polygon(7px 0%,100% 0%,calc(100% - 7px) 100%,0% 100%);transition:border-color 0.2s}
+.comp-row:hover{border-color:rgba(0,240,255,0.25)}
+.comp-label{font-family:'Share Tech Mono',monospace;font-size:0.67rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase}
+.comp-select{background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:0.92rem;font-weight:500;padding:0.45rem 0.7rem;cursor:pointer;outline:none;width:100%;transition:border-color 0.2s}
+.comp-select:focus{border-color:var(--accent)}
+.comp-price{font-family:'Orbitron',monospace;font-size:0.7rem;color:var(--accent);white-space:nowrap;text-align:right}
+
+/* SUMMARY PANEL */
+.summary-panel{background:var(--panel);border:1px solid var(--border);position:sticky;top:82px}
+.summary-header{padding:1.3rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.summary-title{font-family:'Orbitron',monospace;font-size:0.8rem;font-weight:700;color:var(--text);letter-spacing:0.08em}
+.summary-badge{font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:var(--bg);background:var(--accent);padding:0.18rem 0.45rem;letter-spacing:0.08em}
+.summary-visual{height:180px;background:var(--bg);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.setup-icon-bg{font-size:5rem;opacity:0.1;position:absolute;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.setup-name{position:relative;z-index:2;font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:var(--accent);text-shadow:var(--glow);text-align:center}
+.setup-tier{font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-align:center;margin-top:0.25rem}
+.summary-specs{padding:1.2rem;display:flex;flex-direction:column;gap:0.5rem;border-bottom:1px solid var(--border)}
+.spec-line{display:flex;justify-content:space-between;align-items:center}
+.spec-key{color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.04em}
+.spec-val{color:var(--text);font-weight:600;font-size:0.78rem}
+.summary-total{padding:1.2rem;border-bottom:1px solid var(--border)}
+.total-label{font-family:'Share Tech Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:0.18em;margin-bottom:0.25rem}
+.total-price{font-family:'Orbitron',monospace;font-size:1.7rem;font-weight:900;color:var(--accent);text-shadow:var(--glow);line-height:1}
+.total-sub{font-size:0.72rem;color:var(--muted);margin-top:0.25rem}
+.summary-actions{padding:1.2rem;display:flex;flex-direction:column;gap:0.65rem}
+.btn-order{font-family:'Orbitron',monospace;font-size:0.72rem;font-weight:700;letter-spacing:0.08em;color:var(--bg);background:var(--accent);border:none;padding:0.9rem;cursor:pointer;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:all 0.2s;width:100%;box-shadow:0 0 25px rgba(0,240,255,0.18)}
+.btn-order:hover{background:var(--text);box-shadow:0 0 45px rgba(0,240,255,0.45)}
+.btn-negocier{font-family:'Orbitron',monospace;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;color:var(--accent2);background:transparent;border:1px solid var(--accent2);padding:0.75rem;cursor:pointer;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:all 0.2s;width:100%}
+.btn-negocier:hover{background:rgba(255,60,0,0.08);box-shadow:var(--glow2)}
+.config-full-cta{margin-top:1.5rem;text-align:center}
+
+/* WHY */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.25rem}
+.why-card{background:var(--panel);border:1px solid var(--border);padding:1.8rem;transition:all 0.3s;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%)}
+.why-card:hover{border-color:var(--accent);box-shadow:var(--glow)}
+.why-icon{font-size:1.8rem;margin-bottom:0.8rem;display:block}
+.why-title{font-family:'Orbitron',monospace;font-size:0.78rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;letter-spacing:0.04em}
+.why-desc{font-size:0.82rem;color:var(--muted);line-height:1.55}
+
+/* ===================== CATALOGUE ===================== */
+.catalogue-page{padding:3rem;max-width:1400px;margin:0 auto}
+.catalogue-page .page-title{font-family:'Orbitron',monospace;font-size:clamp(1.6rem,3vw,2.5rem);font-weight:900;color:var(--text);margin-bottom:0.5rem}
+.catalogue-page .page-title em{font-style:normal;color:var(--accent);text-shadow:var(--glow)}
+.catalogue-page .page-sub{font-size:0.9rem;color:var(--muted);margin-bottom:2.5rem}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;align-items:center}
+.search-wrap{position:relative;flex:1;min-width:220px}
+.search-input{width:100%;background:var(--panel);border:1px solid var(--border);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:0.95rem;padding:0.75rem 1rem 0.75rem 2.8rem;outline:none;transition:border-color 0.2s}
+.search-input:focus{border-color:var(--accent)}
+.search-icon{position:absolute;left:0.9rem;top:50%;transform:translateY(-50%);color:var(--muted);font-size:0.9rem;pointer-events:none}
+.filter-chips{display:flex;gap:0.5rem;flex-wrap:wrap}
+.chip{font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;padding:0.45rem 0.9rem;border:1px solid var(--border);background:var(--panel);color:var(--muted);cursor:pointer;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);transition:all 0.2s}
+.chip.active,.chip:hover{border-color:var(--accent);color:var(--accent);background:rgba(0,240,255,0.06)}
+.results-count{font-family:'Share Tech Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.1em;margin-left:auto;white-space:nowrap}
+
+/* ===================== CART ===================== */
+.cart-page{padding:3rem;max-width:1000px;margin:0 auto}
+.cart-page .page-title{font-family:'Orbitron',monospace;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:900;color:var(--text);margin-bottom:2rem}
+.cart-page .page-title em{font-style:normal;color:var(--accent);text-shadow:var(--glow)}
+.cart-empty{text-align:center;padding:6rem 2rem;color:var(--muted)}
+.cart-empty .empty-icon{font-size:4rem;margin-bottom:1rem;opacity:0.3}
+.cart-empty p{font-family:'Share Tech Mono',monospace;font-size:0.75rem;letter-spacing:0.15em;margin-bottom:1.5rem}
+.cart-list{display:flex;flex-direction:column;gap:1rem;margin-bottom:2rem}
+.cart-item{background:var(--panel);border:1px solid var(--border);padding:1.2rem 1.5rem;display:grid;grid-template-columns:56px 1fr auto auto;align-items:center;gap:1.2rem;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.cart-item-icon{font-size:2rem;text-align:center}
+.cart-item-name{font-family:'Orbitron',monospace;font-size:0.78rem;font-weight:700;color:var(--text);line-height:1.3}
+.cart-item-cat{font-family:'Share Tech Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:0.1em;margin-top:0.2rem}
+.cart-item-price{font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:var(--accent);text-shadow:var(--glow);white-space:nowrap}
+.cart-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;transition:color 0.2s;padding:0.3rem}
+.cart-remove:hover{color:var(--accent2)}
+.cart-summary{background:var(--panel);border:1px solid var(--border);padding:1.8rem;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%)}
+.cart-summary-line{display:flex;justify-content:space-between;margin-bottom:0.8rem;font-size:0.9rem}
+.cart-summary-line span:first-child{color:var(--muted)}
+.cart-summary-line span:last-child{color:var(--text);font-weight:600}
+.cart-total-line{display:flex;justify-content:space-between;padding-top:1rem;border-top:1px solid var(--border);margin-top:0.5rem}
+.cart-total-line span:first-child{font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:var(--muted);letter-spacing:0.12em}
+.cart-total-line span:last-child{font-family:'Orbitron',monospace;font-size:1.5rem;font-weight:900;color:var(--accent);text-shadow:var(--glow)}
+.checkout-btn{font-family:'Orbitron',monospace;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;color:var(--bg);background:var(--accent);border:none;padding:1rem;cursor:pointer;clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);transition:all 0.2s;width:100%;margin-top:1.2rem;box-shadow:0 0 25px rgba(0,240,255,0.18)}
+.checkout-btn:hover{background:var(--text);box-shadow:0 0 45px rgba(0,240,255,0.45)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(5,5,8,0.95);z-index:5000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(12px)}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--panel);border:1px solid var(--accent);box-shadow:var(--glow);width:90%;max-width:480px;clip-path:polygon(14px 0%,100% 0%,calc(100% - 14px) 100%,0% 100%);padding:2.2rem;transform:scale(0.95);transition:transform 0.3s;position:relative;max-height:90vh;overflow-y:auto}
+.modal-overlay.open .modal{transform:scale(1)}
+.modal-close{position:absolute;top:0.9rem;right:1.2rem;font-family:'Share Tech Mono',monospace;font-size:0.68rem;color:var(--muted);cursor:pointer;background:none;border:none;letter-spacing:0.08em}
+.modal-close:hover{color:var(--accent2)}
+.modal-title{font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:var(--accent);text-shadow:var(--glow);margin-bottom:0.4rem}
+.modal-sub{font-size:0.83rem;color:var(--muted);margin-bottom:1.8rem;line-height:1.5}
+.modal-form{display:flex;flex-direction:column;gap:0.9rem}
+.form-group{display:flex;flex-direction:column;gap:0.35rem}
+.form-label{font-family:'Share Tech Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase}
+.form-input,.form-textarea{background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:0.92rem;padding:0.7rem 0.9rem;outline:none;transition:border-color 0.2s;resize:none;width:100%}
+.form-input:focus,.form-textarea:focus{border-color:var(--accent)}
+.form-summary-box{background:var(--bg);border:1px solid var(--border);padding:0.9rem;font-family:'Share Tech Mono',monospace;font-size:0.67rem;color:var(--muted);line-height:1.7}
+.form-summary-box strong{color:var(--accent)}
+.btn-submit{font-family:'Orbitron',monospace;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;color:var(--bg);background:var(--accent);border:none;padding:0.9rem;cursor:pointer;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:all 0.2s;margin-top:0.4rem;width:100%}
+.btn-submit:hover{background:var(--text);box-shadow:var(--glow)}
+
+/* FOOTER */
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0.25}
+footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;max-width:1400px;margin:0 auto}
+.footer-logo{font-family:'Orbitron',monospace;font-size:0.95rem;font-weight:900;color:var(--accent);text-shadow:var(--glow)}
+.footer-logo span{color:var(--accent2)}
+.footer-info{font-family:'Share Tech Mono',monospace;font-size:0.67rem;color:var(--muted);letter-spacing:0.08em;line-height:1.9;text-align:right}
+.footer-info a{color:var(--accent);text-decoration:none}
+
+/* NOTIF */
+.notif{position:fixed;bottom:2rem;right:2rem;background:var(--panel);border:1px solid var(--accent);box-shadow:var(--glow);padding:0.9rem 1.4rem;z-index:8000;font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:var(--accent);letter-spacing:0.08em;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transform:translateX(160%);transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+.notif.show{transform:translateX(0)}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{opacity:0;transform:translateY(16px);transition:opacity 0.55s,transform 0.55s}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:0 1.2rem}
+  .nav-links{display:none}
+  .hero{padding:4rem 1.2rem 2rem}
+  .hero-stats{position:static;margin-top:2.5rem}
+  .home-section,.catalogue-page,.cart-page{padding:3rem 1.2rem}
+  .config-preview-inner{padding:0 1.2rem}
+  .config-mini-layout{grid-template-columns:1fr}
+  .comp-row{grid-template-columns:90px 1fr}
+  .comp-price{display:none}
+  footer{padding:2rem 1.2rem;flex-direction:column;text-align:center}
+  .footer-info{text-align:center}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">NEW <span>LAPTOP</span> DEAL</div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" id="nav-home" class="active">Accueil</a></li>
+    <li><a onclick="showPage('catalogue')" id="nav-catalogue">Catalogue</a></li>
+    <li><a onclick="showPage('configurateur')" id="nav-configurateur">Configurateur</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="cart-btn" onclick="showPage('cart')">
+      🛒 PANIER
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <span class="ticker">🎮 SETUP GAMER SUR MESURE &nbsp;•&nbsp; RÉPARATION PC &amp; LAPTOP &nbsp;•&nbsp; COMPOSANTS AUTHENTIQUES &nbsp;•&nbsp; LIVRAISON COTONOU &nbsp;•&nbsp; GAMING BÉNIN N°1 &nbsp;•&nbsp; 🎮 SETUP GAMER SUR MESURE &nbsp;•&nbsp; RÉPARATION PC &amp; LAPTOP &nbsp;•&nbsp; COMPOSANTS AUTHENTIQUES &nbsp;•&nbsp; LIVRAISON COTONOU &nbsp;•&nbsp; GAMING BÉNIN N°1 &nbsp;•&nbsp;</span>
+</div>
+
+<!-- ======================== PAGE: HOME ======================== -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-glow2"></div>
+    <div class="hero-content">
+      <div class="hero-tag">ABOMEY-CALAVI &amp; COTONOU — BÉNIN</div>
+      <h1 class="hero-title">
+        <span class="l1">TON SETUP</span>
+        <span class="l2">GAMER</span>
+        <span class="l3">COMMENCE ICI.</span>
+      </h1>
+      <p class="hero-sub"><strong>Réparation, assemblage, configuration.</strong> Des setups gaming haut de gamme construits par des experts. Configure ton build et commande en quelques clics.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('configurateur')">⚡ CONFIGURER MON SETUP</button>
+        <button class="btn-secondary" onclick="showPage('catalogue')">VOIR LE CATALOGUE</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">500+</div><div class="stat-label">PCs réparés</div></div>
+      <div class="stat"><div class="stat-num">150+</div><div class="stat-label">Setups livrés</div></div>
+      <div class="stat"><div class="stat-num">4.9★</div><div class="stat-label">Satisfaction</div></div>
+    </div>
+  </div>
+
+  <!-- BESTSELLERS -->
+  <div class="home-section">
+    <div class="sec-header fade-in">
+      <div>
+        <div class="sec-tag">// BEST SELLERS</div>
+        <h2 class="sec-title">Nos <em>Top Produits</em></h2>
+      </div>
+      <button class="see-all" onclick="showPage('catalogue')">VOIR TOUT LE CATALOGUE →</button>
+    </div>
+    <div class="grid-4" id="bestsellers-grid"></div>
+  </div>
+
+  <!-- CONFIG PREVIEW -->
+  <div class="config-preview-wrap">
+    <div class="config-preview-inner">
+      <div class="sec-header fade-in">
+        <div>
+          <div class="sec-tag">// BUILD YOUR BEAST</div>
+          <h2 class="sec-title"><em>Configure</em> ton Setup</h2>
+        </div>
+        <button class="see-all" onclick="showPage('configurateur')">CONFIGURATEUR COMPLET →</button>
+      </div>
+      <div class="config-mini-layout">
+        <div>
+          <div class="preset-row fade-in">
+            <button class="preset-btn active" id="home-preset-entry" onclick="applyHomePreset('entry',event)">⚡ ENTRY GAMER</button>
+            <button class="preset-btn fire" id="home-preset-mid" onclick="applyHomePreset('mid',event)">🔥 MID BEAST</button>
+            <button class="preset-btn ultra" id="home-preset-ultra" onclick="applyHomePreset('ultra',event)">👑 ULTRA PRO</button>
+          </div>
+          <div class="comp-rows fade-in" id="homeConfigForm"></div>
+        </div>
+        <div class="summary-panel fade-in">
+          <div class="summary-header">
+            <div class="summary-title">TON BUILD</div>
+            <div class="summary-badge" id="homeTierBadge">ENTRY GAMER</div>
+          </div>
+          <div class="summary-visual">
+            <div class="setup-icon-bg">🖥️</div>
+            <div>
+              <div class="setup-name" id="homeSetupName">STARTER RIG</div>
+              <div class="setup-tier" id="homeSetupTier">ENTRY-LEVEL GAMING</div>
+            </div>
+          </div>
+          <div class="summary-specs" id="homeSummarySpecs"></div>
+          <div class="summary-total">
+            <div class="total-label">TOTAL ESTIMÉ</div>
+            <div class="total-price" id="homeTotalPrice">—</div>
+            <div class="total-sub">CFA · Assemblage &amp; config inclus</div>
+          </div>
+          <div class="summary-actions">
+            <button class="btn-order" onclick="openModal('order','home')">⚡ COMMANDER CE SETUP</button>
+            <button class="btn-negocier" onclick="openModal('negocier','home')">💬 NÉGOCIER LE PRIX</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY US -->
+  <div class="home-section">
+    <div class="sec-header fade-in">
+      <div>
+        <div class="sec-tag">// POURQUOI NOUS</div>
+        <h2 class="sec-title">L'expertise <em>Gaming</em> au Bénin</h2>
+      </div>
+    </div>
+    <div class="why-grid">
+      <div class="why-card fade-in"><span class="why-icon">🔧</span><div class="why-title">TECHNICIENS CERTIFIÉS</div><div class="why-desc">Des experts passionnés avec des années d'expérience en assemblage et réparation gaming haute performance.</div></div>
+      <div class="why-card fade-in"><span class="why-icon">⚡</span><div class="why-title">COMPOSANTS AUTHENTIQUES</div><div class="why-desc">100% de pièces authentiques avec facture et garantie constructeur. Zéro contrefaçon, zéro compromis.</div></div>
+      <div class="why-card fade-in"><span class="why-icon">🛡️</span><div class="why-title">GARANTIE 6 MOIS</div><div class="why-desc">Tous nos setups assemblés sont garantis 6 mois pièces et main d'œuvre. SAV sur WhatsApp.</div></div>
+      <div class="why-card fade-in"><span class="why-icon">🚀</span><div class="why-title">LIVRAISON COTONOU</div><div class="why-desc">Livraison rapide sur Cotonou et Abomey-Calavi. Votre setup livré, installé et configuré chez vous.</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <footer>
+    <div class="footer-logo">NEW <span>LAPTOP</span> DEAL</div>
+    <div class="footer-info">📍 Abomey-Calavi, Bénin<br>📱 <a href="#">+229 XX XX XX XX</a><br>🎮 TikTok : @newlaptopdeal<br>💬 WhatsApp 7j/7</div>
+  </footer>
+</div>
+
+<!-- ======================== PAGE: CATALOGUE ======================== -->
+<div class="page" id="page-catalogue">
+  <div class="catalogue-page">
+    <div class="page-title fade-in"><em>Catalogue</em> Complet</div>
+    <p class="catalogue-page page-sub fade-in">Tous nos produits, setups et services gaming disponibles à Cotonou.</p>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar fade-in">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" type="text" placeholder="Rechercher un produit..." id="searchInput" oninput="filterCatalogue()">
+      </div>
+      <div class="filter-chips">
+        <button class="chip active" data-cat="all" onclick="filterByChip(this)">TOUT</button>
+        <button class="chip" data-cat="Setup Gaming" onclick="filterByChip(this)">SETUPS</button>
+        <button class="chip" data-cat="Laptop" onclick="filterByChip(this)">LAPTOPS</button>
+        <button class="chip" data-cat="Périphériques" onclick="filterByChip(this)">PÉRIPHÉRIQUES</button>
+        <button class="chip" data-cat="Réparation" onclick="filterByChip(this)">RÉPARATION</button>
+        <button class="chip" data-cat="Accessoires" onclick="filterByChip(this)">ACCESSOIRES</button>
+      </div>
+      <div class="results-count" id="resultsCount">— produits</div>
+    </div>
+
+    <div class="grid-4" id="catalogue-grid"></div>
+  </div>
+  <div class="divider"></div>
+  <footer>
+    <div class="footer-logo">NEW <span>LAPTOP</span> DEAL</div>
+    <div class="footer-info">📍 Abomey-Calavi, Bénin<br>📱 <a href="#">+229 XX XX XX XX</a><br>🎮 TikTok : @newlaptopdeal<br>💬 WhatsApp 7j/7</div>
+  </footer>
+</div>
+
+<!-- ======================== PAGE: CONFIGURATEUR ======================== -->
+<div class="page" id="page-configurateur">
+  <div class="home-section" style="padding-top:3rem">
+    <div class="sec-header fade-in">
+      <div>
+        <div class="sec-tag">// BUILD YOUR BEAST</div>
+        <h2 class="sec-title"><em>Configurateur</em> de Setup</h2>
+      </div>
+    </div>
+    <div class="config-mini-layout">
+      <div>
+        <div class="preset-row fade-in">
+          <button class="preset-btn active" id="full-preset-entry" onclick="applyFullPreset('entry',event)">⚡ ENTRY GAMER</button>
+          <button class="preset-btn fire" id="full-preset-mid" onclick="applyFullPreset('mid',event)">🔥 MID BEAST</button>
+          <button class="preset-btn ultra" id="full-preset-ultra" onclick="applyFullPreset('ultra',event)">👑 ULTRA PRO</button>
+        </div>
+        <div class="comp-rows fade-in" id="fullConfigForm"></div>
+      </div>
+      <div class="summary-panel fade-in">
+        <div class="summary-header">
+          <div class="summary-title">TON BUILD</div>
+          <div class="summary-badge" id="fullTierBadge">ENTRY GAMER</div>
+        </div>
+        <div class="summary-visual">
+          <div class="setup-icon-bg">🖥️</div>
+          <div>
+            <div class="setup-name" id="fullSetupName">STARTER RIG</div>
+            <div class="setup-tier" id="fullSetupTier">ENTRY-LEVEL GAMING</div>
+          </div>
+        </div>
+        <div class="summary-specs" id="fullSummarySpecs"></div>
+        <div class="summary-total">
+          <div class="total-label">TOTAL ESTIMÉ</div>
+          <div class="total-price" id="fullTotalPrice">—</div>
+          <div class="total-sub">CFA · Assemblage &amp; config inclus</div>
+        </div>
+        <div class="summary-actions">
+          <button class="btn-order" onclick="openModal('order','full')">⚡ COMMANDER CE SETUP</button>
+          <button class="btn-negocier" onclick="openModal('negocier','full')">💬 NÉGOCIER LE PRIX</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <footer>
+    <div class="footer-logo">NEW <span>LAPTOP</span> DEAL</div>
+    <div class="footer-info">📍 Abomey-Calavi, Bénin<br>📱 <a href="#">+229 XX XX XX XX</a><br>💬 WhatsApp 7j/7</div>
+  </footer>
+</div>
+
+<!-- ======================== PAGE: CART ======================== -->
+<div class="page" id="page-cart">
+  <div class="cart-page">
+    <div class="page-title fade-in">Mon <em>Panier</em></div>
+    <div id="cartContent"></div>
+  </div>
+  <div class="divider"></div>
+  <footer>
+    <div class="footer-logo">NEW <span>LAPTOP</span> DEAL</div>
+    <div class="footer-info">📍 Abomey-Calavi, Bénin<br>📱 <a href="#">+229 XX XX XX XX</a><br>💬 WhatsApp 7j/7</div>
+  </footer>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">[ FERMER ✕ ]</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- NOTIF -->
+<div class="notif" id="notif"></div>
+
+<script>
+// CURSOR
+const dot = document.getElementById('cursorDot');
+document.addEventListener('mousemove', e => {
+  dot.style.left = e.clientX + 'px';
+  dot.style.top = e.clientY + 'px';
+});
+
+// ======================== DATA ========================
+const PRODUCTS = [
+  { id:1, name:'BATTLESTATION PRO', cat:'Setup Gaming', icon:'🖥️', badge:'hot', badgeLabel:'HOT', desc:'RTX 4060 · Core i7 · 32GB RAM · 1TB NVMe. Le setup de référence.', price:850000, bestseller:true },
+  { id:2, name:'PC REPAIR EXPRESS', cat:'Réparation', icon:'🔧', badge:'new', badgeLabel:'NEW', desc:'Diagnostic complet, remplacement pièces, nettoyage. Rendu sous 48h.', price:5000, bestseller:true },
+  { id:3, name:'PACK GAMER COMPLET', cat:'Périphériques', icon:'⌨️', badge:'top', badgeLabel:'TOP', desc:'Clavier mécanique RGB + Souris 16000 DPI + Casque 7.1 + Tapis XXL.', price:120000, bestseller:true },
+  { id:4, name:'MOBILE BEAST', cat:'Laptop', icon:'💻', badge:'', badgeLabel:'', desc:'Laptop reconditionné RTX 3060 · 144Hz · 16GB. Testé &amp; garanti.', price:480000, bestseller:true },
+  { id:5, name:'UPGRADE RAM & SSD', cat:'Accessoires', icon:'🖱️', badge:'', badgeLabel:'', desc:'Boost RAM DDR4/DDR5 ou SSD NVMe. Installation incluse.', price:25000, bestseller:false },
+  { id:6, name:'STREAMER KIT', cat:'Setup Gaming', icon:'🎮', badge:'new', badgeLabel:'NEW', desc:'PC + Webcam + Micro + Éclairage RGB. Tout pour streamer pro.', price:620000, bestseller:false },
+  { id:7, name:'ENTRY GAMER RIG', cat:'Setup Gaming', icon:'🖥️', badge:'', badgeLabel:'', desc:'GTX 1660S · Core i5 · 16GB · 512GB NVMe. Débuter sans se ruiner.', price:320000, bestseller:false },
+  { id:8, name:'APEX ULTRA BUILD', cat:'Setup Gaming', icon:'🖥️', badge:'top', badgeLabel:'TOP', desc:'RTX 4070 · Core i9 · 64GB DDR5 · 2TB NVMe. La bête ultime.', price:1450000, bestseller:false },
+  { id:9, name:'ECRAN GAMING 144HZ', cat:'Périphériques', icon:'🖥️', badge:'', badgeLabel:'', desc:'27 pouces IPS 144Hz 1ms. Couleurs vives, réactivité maximale.', price:95000, bestseller:false },
+  { id:10, name:'CHAISE GAMING PRO', cat:'Accessoires', icon:'🪑', badge:'', badgeLabel:'', desc:'Chaise ergonomique racing avec support lombaire et appuie-tête.', price:75000, bestseller:false },
+  { id:11, name:'MAINTENANCE ANNUELLE', cat:'Réparation', icon:'🔩', badge:'', badgeLabel:'', desc:'Nettoyage complet, changement pâte thermique, diagnostic préventif.', price:15000, bestseller:false },
+  { id:12, name:'INSTALL OS & DRIVERS', cat:'Accessoires', icon:'💿', badge:'', badgeLabel:'', desc:'Installation Windows + drivers + logiciels gaming. Clé en main.', price:8000, bestseller:false },
+];
+
+const COMPS_DATA = {
+  gpu:     { label:'🖥️ GPU',     options:[{v:60000,n:'GTX 1660 Super'},{v:120000,n:'RTX 3060'},{v:200000,n:'RTX 4060'},{v:280000,n:'RTX 4060 Ti'},{v:420000,n:'RTX 4070'}] },
+  cpu:     { label:'⚙️ CPU',     options:[{v:55000,n:'Core i5-12400F'},{v:85000,n:'Core i7-12700K'},{v:75000,n:'Ryzen 5 7600X'},{v:110000,n:'Ryzen 7 7700X'},{v:150000,n:'Core i9-13900K'}] },
+  ram:     { label:'💾 RAM',     options:[{v:20000,n:'8 Go DDR4'},{v:35000,n:'16 Go DDR4'},{v:65000,n:'32 Go DDR5'},{v:120000,n:'64 Go DDR5'}] },
+  storage: { label:'💿 STOCKAGE',options:[{v:18000,n:'512 Go NVMe'},{v:28000,n:'1 To NVMe'},{v:45000,n:'2 To NVMe'},{v:60000,n:'2To+4To HDD'}] },
+  psu:     { label:'🔌 ALIM',    options:[{v:22000,n:'550W Bronze'},{v:32000,n:'650W Gold'},{v:45000,n:'750W Gold Mod.'},{v:60000,n:'850W Platinum'}] },
+  case:    { label:'🗄️ BOÎTIER', options:[{v:25000,n:'Mid-Tower Basic'},{v:45000,n:'Mid-Tower RGB'},{v:70000,n:'Full-Tower Premium'},{v:90000,n:'Full-Tower Luxe'}] },
+  cooling: { label:'🌡️ COOLING', options:[{v:8000,n:'Ventirad Stock'},{v:20000,n:'Ventirad RGB'},{v:45000,n:'AIO 240mm'},{v:65000,n:'AIO 360mm'}] },
+};
+
+const PRESETS = {
+  entry: { gpu:60000, cpu:55000, ram:35000, storage:18000, psu:22000, case:25000, cooling:8000 },
+  mid:   { gpu:200000, cpu:85000, ram:65000, storage:28000, psu:32000, case:45000, cooling:20000 },
+  ultra: { gpu:420000, cpu:150000, ram:120000, storage:60000, psu:60000, case:90000, cooling:65000 },
+};
+const TIER_NAMES = {
+  entry: { badge:'ENTRY GAMER', name:'STARTER RIG', tier:'ENTRY-LEVEL GAMING' },
+  mid:   { badge:'MID BEAST',   name:'BATTLESTATION', tier:'MID-RANGE GAMING RIG' },
+  ultra: { badge:'ULTRA PRO',   name:'APEX MACHINE', tier:'HIGH-END GAMING BEAST' },
+};
+
+// CART STATE
+let cart = [];
+let currentCatFilter = 'all';
+let currentHomePreset = 'entry';
+let currentFullPreset = 'entry';
+
+// ======================== NAVIGATION ========================
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  const navEl = document.getElementById('nav-' + page);
+  if (navEl) navEl.classList.add('active');
+  window.scrollTo(0,0);
+  observeFadeIns();
+}
+
+// ======================== PRODUCTS ========================
+function formatPrice(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(1).replace('.',',') + ' M F';
+  if (n < 10000) return n.toLocaleString('fr-FR') + ' F';
+  return Math.round(n/1000) + '.000 F';
+}
+
+function badgeHTML(badge, label) {
+  if (!badge) return '';
+  return `<span class="card-badge badge-${badge}">${label}</span>`;
+}
+
+function productCardHTML(p, showCartBtn = true) {
+  return `
+  <div class="product-card fade-in">
+    <div class="card-img" style="background:linear-gradient(135deg,#080810,#10101a)">
+      ${p.icon}
+      ${badgeHTML(p.badge, p.badgeLabel)}
+    </div>
+    <div class="card-body">
+      <div class="card-cat">${p.cat}</div>
+      <div class="card-name">${p.name}</div>
+      <div class="card-desc">${p.desc}</div>
+      <div class="card-footer">
+        <div class="card-price">${formatPrice(p.price)}<small>CFA</small></div>
+        <div class="card-actions">
+          <button class="card-btn" onclick="openModal('product',null,${p.id})">COMMANDER</button>
+          ${showCartBtn ? `<button class="card-btn-ghost" onclick="addToCart(${p.id})">+ PANIER</button>` : ''}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderBestsellers() {
+  const bests = PRODUCTS.filter(p => p.bestseller);
+  document.getElementById('bestsellers-grid').innerHTML = bests.map(p => productCardHTML(p)).join('');
+  observeFadeIns();
+}
+
+function renderCatalogue() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  let filtered = PRODUCTS.filter(p => {
+    const matchCat = currentCatFilter === 'all' || p.cat === currentCatFilter;
+    const matchQ = !q || p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+  document.getElementById('catalogue-grid').innerHTML = filtered.map(p => productCardHTML(p)).join('');
+  document.getElementById('resultsCount').textContent = filtered.length + ' produit' + (filtered.length > 1 ? 's' : '');
+  observeFadeIns();
+}
+
+function filterCatalogue() { renderCatalogue(); }
+
+function filterByChip(el) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  currentCatFilter = el.dataset.cat;
+  renderCatalogue();
+}
+
+// ======================== CONFIGURATOR ========================
+function buildConfigForm(containerId, prefix) {
+  const comps = Object.keys(COMPS_DATA);
+  let html = '';
+  comps.forEach(comp => {
+    const d = COMPS_DATA[comp];
+    html += `<div class="comp-row">
+      <div class="comp-label">${d.label}</div>
+      <select class="comp-select" id="${prefix}-${comp}" onchange="updateConfig('${prefix}')">
+        ${d.options.map(o => `<option value="${o.v}">${o.n} — ${formatPrice(o.v)}</option>`).join('')}
+      </select>
+      <div class="comp-price" id="${prefix}-price-${comp}">—</div>
+    </div>`;
+  });
+  document.getElementById(containerId).innerHTML = html;
+}
+
+function applyPreset(prefix, preset) {
+  const p = PRESETS[preset];
+  Object.keys(p).forEach(comp => {
+    const el = document.getElementById(prefix + '-' + comp);
+    if (el) el.value = p[comp];
+  });
+  updateConfig(prefix);
+}
+
+function applyHomePreset(preset, e) {
+  currentHomePreset = preset;
+  document.querySelectorAll('[id^="home-preset-"]').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  applyPreset('home', preset);
+}
+
+function applyFullPreset(preset, e) {
+  currentFullPreset = preset;
+  document.querySelectorAll('[id^="full-preset-"]').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  applyPreset('full', preset);
+}
+
+function updateConfig(prefix) {
+  let total = 0;
+  const specLines = [];
+  Object.keys(COMPS_DATA).forEach(comp => {
+    const sel = document.getElementById(prefix + '-' + comp);
+    if (!sel) return;
+    const val = parseInt(sel.value);
+    total += val;
+    const priceEl = document.getElementById(prefix + '-price-' + comp);
+    if (priceEl) priceEl.textContent = formatPrice(val);
+    const name = COMPS_DATA[comp].options.find(o => o.v === val)?.n || '';
+    specLines.push({ key: COMPS_DATA[comp].label.replace(/^.+ /,''), val: name });
+  });
+  total += 25000; // assembly
+
+  const isHome = prefix === 'home';
+  const presetKey = isHome ? currentHomePreset : currentFullPreset;
+  const tier = TIER_NAMES[presetKey];
+
+  document.getElementById(prefix + 'TotalPrice').textContent = formatPrice(total);
+  document.getElementById(prefix + 'TierBadge').textContent = tier.badge;
+  document.getElementById(prefix + 'SetupName').textContent = tier.name;
+  document.getElementById(prefix + 'SetupTier').textContent = tier.tier;
+
+  const specsHTML = specLines.slice(0,4).map(s =>
+    `<div class="spec-line"><span class="spec-key">${s.key}</span><span class="spec-val">${s.val}</span></div>`
+  ).join('') +
+  `<div class="spec-line"><span class="spec-key">ASSEMBLAGE</span><span class="spec-val" style="color:var(--accent)">✓ INCLUS</span></div>
+   <div class="spec-line"><span class="spec-key">GARANTIE</span><span class="spec-val" style="color:var(--accent)">6 MOIS</span></div>`;
+  document.getElementById(prefix + 'SummarySpecs').innerHTML = specsHTML;
+}
+
+// ======================== CART ========================
+function addToCart(productId) {
+  const p = PRODUCTS.find(x => x.id === productId);
+  if (!p) return;
+  const existing = cart.find(c => c.id === productId);
+  if (existing) {
+    showNotif('⚠️ Déjà dans le panier');
+    return;
+  }
+  cart.push({ ...p });
+  updateCartCount();
+  showNotif('✓ ' + p.name + ' ajouté au panier !');
+}
+
+function removeFromCart(productId) {
+  cart = cart.filter(c => c.id !== productId);
+  updateCartCount();
+  renderCart();
+  showNotif('✕ Produit retiré du panier');
+}
+
+function updateCartCount() {
+  const el = document.getElementById('cartCount');
+  el.textContent = cart.length;
+  el.style.display = cart.length > 0 ? 'flex' : 'none';
+}
+
+function renderCart() {
+  const container = document.getElementById('cartContent');
+  if (cart.length === 0) {
+    container.innerHTML = `<div class="cart-empty"><div class="empty-icon">🛒</div><p>TON PANIER EST VIDE</p><button class="btn-primary" onclick="showPage('catalogue')">VOIR LE CATALOGUE</button></div>`;
+    return;
+  }
+  const total = cart.reduce((s, c) => s + c.price, 0);
+  container.innerHTML = `
+    <div class="cart-list">
+      ${cart.map(item => `
+        <div class="cart-item">
+          <div class="cart-item-icon">${item.icon}</div>
+          <div>
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-cat">${item.cat}</div>
+          </div>
+          <div class="cart-item-price">${formatPrice(item.price)}</div>
+          <button class="cart-remove" onclick="removeFromCart(${item.id})" title="Retirer">✕</button>
+        </div>
+      `).join('')}
+    </div>
+    <div class="cart-summary">
+      <div class="cart-summary-line"><span>Sous-total (${cart.length} article${cart.length>1?'s':''})</span><span>${formatPrice(total)}</span></div>
+      <div class="cart-summary-line"><span>Livraison</span><span style="color:var(--accent)">À confirmer</span></div>
+      <div class="cart-total-line"><span>TOTAL</span><span>${formatPrice(total)}</span></div>
+      <button class="checkout-btn" onclick="openModal('checkout')">⚡ PASSER LA COMMANDE</button>
+    </div>`;
+}
+
+// ======================== MODAL ========================
+function openModal(type, prefix, productId) {
+  const overlay = document.getElementById('modalOverlay');
+  const content = document.getElementById('modalContent');
+  let html = '';
+
+  if (type === 'product') {
+    const p = PRODUCTS.find(x => x.id === productId);
+    html = `
+      <div class="modal-title">⚡ COMMANDER</div>
+      <p class="modal-sub">Remplis le formulaire, on te contacte sous 2h via WhatsApp.</p>
+      <div class="modal-form">
+        <div class="form-group"><label class="form-label">TON NOM</label><input class="form-input" type="text" placeholder="Ex: Kofi Mensah" id="f-name"></div>
+        <div class="form-group"><label class="form-label">WHATSAPP</label><input class="form-input" type="tel" placeholder="+229 XX XX XX XX" id="f-phone"></div>
+        <div class="form-group"><label class="form-label">PRODUIT</label>
+          <div class="form-summary-box"><strong>${p.name}</strong><br>${p.cat} — ${formatPrice(p.price)} CFA</div>
+        </div>
+        <div class="form-group"><label class="form-label">ZONE DE LIVRAISON</label><input class="form-input" type="text" placeholder="Ex: Cotonou, Akpakpa..." id="f-zone"></div>
+        <button class="btn-submit" onclick="submitForm()">✓ ENVOYER MA COMMANDE</button>
+      </div>`;
+  } else if (type === 'order') {
+    const total = document.getElementById((prefix||'home') + 'TotalPrice').textContent;
+    html = `
+      <div class="modal-title">⚡ COMMANDER TON SETUP</div>
+      <p class="modal-sub">Remplis le formulaire, on te contacte sous 2h via WhatsApp.</p>
+      <div class="modal-form">
+        <div class="form-group"><label class="form-label">TON NOM</label><input class="form-input" type="text" placeholder="Ex: Kofi Mensah"></div>
+        <div class="form-group"><label class="form-label">WHATSAPP</label><input class="form-input" type="tel" placeholder="+229 XX XX XX XX"></div>
+        <div class="form-group"><label class="form-label">TON BUILD</label>
+          <div class="form-summary-box"><strong>TOTAL :</strong> ${total} CFA (assemblage inclus)</div>
+        </div>
+        <div class="form-group"><label class="form-label">ZONE DE LIVRAISON</label><input class="form-input" type="text" placeholder="Ex: Cotonou, Akpakpa..."></div>
+        <button class="btn-submit" onclick="submitForm()">✓ ENVOYER MA COMMANDE</button>
+      </div>`;
+  } else if (type === 'negocier') {
+    html = `
+      <div class="modal-title">💬 NÉGOCIER LE PRIX</div>
+      <p class="modal-sub">Tu as un budget précis ? Dis-nous, on trouve une solution ensemble.</p>
+      <div class="modal-form">
+        <div class="form-group"><label class="form-label">TON NOM</label><input class="form-input" type="text" placeholder="Ex: Kofi Mensah"></div>
+        <div class="form-group"><label class="form-label">WHATSAPP</label><input class="form-input" type="tel" placeholder="+229 XX XX XX XX"></div>
+        <div class="form-group"><label class="form-label">TON BUDGET MAX</label><input class="form-input" type="text" placeholder="Ex: 400.000 F CFA"></div>
+        <div class="form-group"><label class="form-label">CE QUE TU CHERCHES</label><textarea class="form-textarea" rows="3" placeholder="Dis-nous ton usage : gaming, streaming, travail..."></textarea></div>
+        <button class="btn-submit" onclick="submitForm()">💬 ENVOYER MA DEMANDE</button>
+      </div>`;
+  } else if (type === 'checkout') {
+    const total = cart.reduce((s, c) => s + c.price, 0);
+    const items = cart.map(c => `• ${c.name} — ${formatPrice(c.price)} F`).join('\n');
+    html = `
+      <div class="modal-title">⚡ FINALISER LA COMMANDE</div>
+      <p class="modal-sub">On te contacte sous 2h via WhatsApp pour confirmer et organiser la livraison.</p>
+      <div class="modal-form">
+        <div class="form-group"><label class="form-label">TON NOM</label><input class="form-input" type="text" placeholder="Ex: Kofi Mensah"></div>
+        <div class="form-group"><label class="form-label">WHATSAPP</label><input class="form-input" type="tel" placeholder="+229 XX XX XX XX"></div>
+        <div class="form-group"><label class="form-label">RÉCAPITULATIF</label>
+          <div class="form-summary-box">${cart.map(c=>`<strong>${c.name}</strong> — ${formatPrice(c.price)} F`).join('<br>')}<br><br><strong>TOTAL : ${formatPrice(total)} F CFA</strong></div>
+        </div>
+        <div class="form-group"><label class="form-label">ZONE DE LIVRAISON</label><input class="form-input" type="text" placeholder="Ex: Cotonou, Akpakpa..."></div>
+        <button class="btn-submit" onclick="submitForm(true)">✓ CONFIRMER MA COMMANDE</button>
+      </div>`;
+  }
+
+  content.innerHTML = html;
+  overlay.classList.add('open');
+}
+
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+
+function submitForm(clearCart) {
+  closeModal();
+  if (clearCart) { cart = []; updateCartCount(); renderCart(); }
+  showNotif('✓ COMMANDE REÇUE — On te contacte sous 2h !');
+}
+
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ======================== NOTIF ========================
+function showNotif(msg) {
+  const n = document.getElementById('notif');
+  n.textContent = msg;
+  n.classList.add('show');
+  setTimeout(() => n.classList.remove('show'), 3500);
+}
+
+// ======================== SCROLL OBSERVER ========================
+function observeFadeIns() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in:not(.visible)').forEach(el => observer.observe(el));
+}
+
+// ======================== INIT ========================
+buildConfigForm('homeConfigForm', 'home');
+buildConfigForm('fullConfigForm', 'full');
+applyPreset('home', 'entry');
+applyPreset('full', 'entry');
+renderBestsellers();
+renderCatalogue();
+observeFadeIns();
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  category    String
+  description String?
+  price       Int
+  image       String?  // URL image uploadée
+  badge       String?  // "new" | "hot" | "top" | null
+  isBestseller Boolean @default(false)
+  stock       String   @default("instock") // "instock" | "lowstock" | "outofstock"
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  OrderItems  OrderItem[]
+}
+
+model Order {
+  id         Int         @id @default(autoincrement())
+  reference  String      @unique // "NLD-001"
+  clientName String
+  clientPhone String
+  zone       String
+  notes      String?
+  status     String      @default("pending") // pending | confirmed | delivered | cancelled
+  totalAmount Int
+  type       String      @default("product") // "product" | "setup"
+  items      OrderItem[]
+  setupConfig Json?       // config du setup si type = "setup"
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  order     Order   @relation(fields:[orderId], references:[id])
+  orderId   Int
+  product   Product? @relation(fields:[productId], references:[id])
+  productId Int?
+  name      String  // snapshot nom au moment commande
+  price     Int
+  quantity  Int     @default(1)
+}
+
+model ComponentCategory {
+  id       Int                 @id @default(autoincrement())
+  key      String              @unique // "gpu" | "cpu" | "ram" etc.
+  label    String              // "GPU" | "CPU" etc.
+  emoji    String              @default("🔧")
+  sortOrder Int               @default(0)
+  options  ComponentOption[]
+}
+
+model ComponentOption {
+  id          Int               @id @default(autoincrement())
+  category    ComponentCategory @relation(fields:[categoryId], references:[id])
+  categoryId  Int
+  name        String
+  price       Int
+  isActive    Boolean           @default(true)
+  PresetItems SetupPresetItem[]
+}
+
+model SetupPreset {
+  id        Int               @id @default(autoincrement())
+  key       String            @unique // "entry" | "mid" | "ultra"
+  label     String            // "ENTRY GAMER" | "MID BEAST" | "ULTRA PRO"
+  emoji     String            @default("⚡")
+  sortOrder Int               @default(0)
+  items     SetupPresetItem[]
+}
+
+model SetupPresetItem {
+  id         Int             @id @default(autoincrement())
+  preset     SetupPreset     @relation(fields:[presetId], references:[id])
+  presetId   Int
+  option     ComponentOption @relation(fields:[optionId], references:[id])
+  optionId   Int
+}
