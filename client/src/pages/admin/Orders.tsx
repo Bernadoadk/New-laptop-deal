@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useOrders, useUpdateOrderStatus, useDeleteOrder } from '../../hooks/useOrders';
-import { DataTable } from '../../components/admin/DataTable';
+import { DataTable, Column } from '../../components/admin/DataTable';
 import { StatusBadge } from '../../components/admin/StatusBadge';
+import { Order } from '../../types';
 import { Modal } from '../../components/ui/Modal';
 import { OrderDetail } from '../../components/admin/OrderDetail';
 import { Button } from '../../components/ui/Button';
@@ -41,17 +42,17 @@ export const Orders = () => {
     return new Intl.NumberFormat('fr-BJ', { style: 'currency', currency: 'XOF', maximumFractionDigits: 0 }).format(price);
   };
 
-  const columns = [
-    { header: 'Référence', accessor: (o: any) => <span className="font-mono text-accent">{o.reference}</span> },
+  const columns: Column<Order>[] = [
+    { header: 'Référence', accessor: (o) => <span className="font-mono text-accent">{o.reference}</span> },
     { header: 'Client', accessor: 'clientName' },
     { header: 'WhatsApp', accessor: 'clientPhone' },
-    { header: 'Type', accessor: (o: any) => <span className="text-[10px] font-bold uppercase py-0.5 px-2 bg-bg rounded border border-border">{o.type}</span> },
-    { header: 'Montant', accessor: (o: any) => formatPrice(o.totalAmount) },
-    { header: 'Statut', accessor: (o: any) => <StatusBadge status={o.status} /> },
-    { header: 'Date', accessor: (o: any) => new Date(o.createdAt).toLocaleDateString() },
+    { header: 'Type', accessor: (o) => <span className="text-[10px] font-bold uppercase py-0.5 px-2 bg-bg rounded border border-border">{o.type}</span> },
+    { header: 'Montant', accessor: (o) => formatPrice(o.totalAmount) },
+    { header: 'Statut', accessor: (o) => <StatusBadge status={o.status} /> },
+    { header: 'Date', accessor: (o) => new Date(o.createdAt).toLocaleDateString() },
     { 
       header: 'Actions', 
-      accessor: (o: any) => (
+      accessor: (o) => (
         <div className="flex items-center gap-2">
           <button onClick={() => setSelectedOrder(o)} className="p-2 text-white hover:text-accent transition-colors"><Eye className="w-4 h-4" /></button>
           <div className="flex items-center gap-1 border-l border-border pl-2">

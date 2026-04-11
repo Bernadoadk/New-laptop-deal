@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useProducts, useCreateProduct, useUpdateProduct, useDeleteProduct } from '../../hooks/useProducts';
-import { DataTable } from '../../components/admin/DataTable';
+import { DataTable, Column } from '../../components/admin/DataTable';
 import { StatusBadge } from '../../components/admin/StatusBadge';
+import { Product } from '../../types';
 import { Button } from '../../components/ui/Button';
 import { Modal } from '../../components/ui/Modal';
 import { ProductForm } from '../../components/admin/ProductForm';
@@ -58,26 +59,26 @@ export const Products = () => {
     return new Intl.NumberFormat('fr-BJ', { style: 'currency', currency: 'XOF', maximumFractionDigits: 0 }).format(price);
   };
 
-  const columns = [
+  const columns: Column<Product>[] = [
     { 
       header: 'Aperçu', 
-      accessor: (p: any) => (
+      accessor: (p) => (
         <div className="w-12 h-12 rounded bg-bg-2 overflow-hidden">
           <img src={p.image || ''} alt="" className="w-full h-full object-cover" />
         </div>
       )
     },
     { header: 'Nom', accessor: 'name' },
-    { header: 'Catégorie', accessor: (p: any) => <span className="text-[10px] uppercase font-bold text-nld-muted2">{p.category}</span> },
-    { header: 'Prix', accessor: (p: any) => formatPrice(p.price) },
-    { header: 'Stock', accessor: (p: any) => <StatusBadge status={p.stock} /> },
+    { header: 'Catégorie', accessor: (p) => <span className="text-[10px] uppercase font-bold text-nld-muted2">{p.category}</span> },
+    { header: 'Prix', accessor: (p) => formatPrice(p.price) },
+    { header: 'Stock', accessor: (p) => <StatusBadge status={p.stock} /> },
     { 
       header: 'Best-S.', 
-      accessor: (p: any) => p.isBestseller ? <Star className="w-4 h-4 text-accent-yellow fill-accent-yellow" /> : <Star className="w-4 h-4 text-nld-muted" /> 
+      accessor: (p) => p.isBestseller ? <Star className="w-4 h-4 text-accent-yellow fill-accent-yellow" /> : <Star className="w-4 h-4 text-nld-muted" /> 
     },
     { 
       header: 'Actions', 
-      accessor: (p: any) => (
+      accessor: (p) => (
         <div className="flex items-center gap-2">
           <button onClick={() => handleEdit(p)} className="p-2 text-white hover:text-accent transition-colors"><Edit2 className="w-4 h-4" /></button>
           <button onClick={() => handleDelete(p.id)} className="p-2 text-white hover:text-accent-red transition-colors"><Trash2 className="w-4 h-4" /></button>

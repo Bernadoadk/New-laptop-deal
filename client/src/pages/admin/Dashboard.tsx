@@ -2,8 +2,9 @@ import React from 'react';
 import { useStats, useOrders } from '../../hooks/useOrders';
 import { useProducts } from '../../hooks/useProducts';
 import { KpiCard } from '../../components/admin/KpiCard';
-import { DataTable } from '../../components/admin/DataTable';
+import { DataTable, Column } from '../../components/admin/DataTable';
 import { StatusBadge } from '../../components/admin/StatusBadge';
+import { Order } from '../../types';
 import { ShoppingCart, Package, Clock, DollarSign, AlertCircle } from 'lucide-react';
 
 export const Dashboard = () => {
@@ -17,11 +18,11 @@ export const Dashboard = () => {
     return new Intl.NumberFormat('fr-BJ', { style: 'currency', currency: 'XOF', maximumFractionDigits: 0 }).format(price);
   };
 
-  const orderColumns = [
-    { header: 'Réf', accessor: (o: any) => <span className="font-mono text-accent">{o.reference}</span> },
+  const orderColumns: Column<Order>[] = [
+    { header: 'Réf', accessor: (o) => <span className="font-mono text-accent">{o.reference}</span> },
     { header: 'Client', accessor: 'clientName' },
-    { header: 'Montant', accessor: (o: any) => formatPrice(o.totalAmount) },
-    { header: 'Statut', accessor: (o: any) => <StatusBadge status={o.status} /> },
+    { header: 'Montant', accessor: (o) => formatPrice(o.totalAmount) },
+    { header: 'Statut', accessor: (o) => <StatusBadge status={o.status} /> },
   ];
 
   return (
