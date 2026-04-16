@@ -39,6 +39,20 @@ app.use('/api/components', componentRoutes);
 app.use('/api/presets', presetRoutes);
 app.use('/api/employees', employeeRoutes);
 
+// Servir les fichiers statiques du client (React/Vite build)
+const clientPath = path.join(__dirname, '../../client/dist');
+app.use(express.static(clientPath));
+
+// Gérer le routage SPA (Single Page Application)
+// Redirige toutes les requêtes non-API vers l'index.html du client
+app.get('*', (req, res) => {
+  if (!req.path.startsWith('/api')) {
+    res.sendFile(path.join(clientPath, 'index.html'));
+  } else {
+    res.status(404).json({ message: 'API route not found' });
+  }
+});
+
 // Error Handling
 app.use(errorHandler);
 
