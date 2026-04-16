@@ -52,10 +52,10 @@ export const Navbar = () => {
             </Link>
           ))}
           
-          <Link to="/panier" className="relative p-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-all group overflow-hidden">
+          <Link to="/panier" className="relative p-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-all group">
             <ShoppingCart className="w-5 h-5 text-white group-hover:text-accent transition-colors" />
             {itemCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-accent text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-premium">
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-accent text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-premium ring-2 ring-bg">
                 {itemCount}
               </span>
             )}
