@@ -8,17 +8,19 @@ import { Home } from './pages/client/Home';
 import { Catalogue } from './pages/client/Catalogue';
 import { Configurateur } from './pages/client/Configurateur';
 import { Panier } from './pages/client/Panier';
+import { Reparation } from './pages/client/Reparation';
 import { Navbar } from './components/client/Navbar';
 import { Footer } from './components/client/Footer';
 
 // Admin Pages
 import { AdminLogin } from './pages/admin/AdminLogin';
-import { AdminLayout } from './pages/admin/AdminLayout';
+import { AdminLayout, OwnerLayout } from './pages/admin/AdminLayout';
 import { Dashboard } from './pages/admin/Dashboard';
 import { Orders } from './pages/admin/Orders';
 import { Products } from './pages/admin/Products';
 import { Components } from './pages/admin/Components';
 import { Presets } from './pages/admin/Presets';
+import { OwnerDashboard } from './pages/admin/OwnerDashboard';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,34 +39,6 @@ const ScrollToTop = () => {
   return null;
 };
 
-const CursorDot = () => {
-  const [position, setPosition] = React.useState({ x: 0, y: 0 });
-  const [active, setActive] = React.useState(false);
-
-  useEffect(() => {
-    const onMouseMove = (e: MouseEvent) => setPosition({ x: e.clientX, y: e.clientY });
-    const onMouseDown = () => setActive(true);
-    const onMouseUp = () => setActive(false);
-
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mousedown', onMouseDown);
-    window.addEventListener('mouseup', onMouseUp);
-
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mousedown', onMouseDown);
-      window.removeEventListener('mouseup', onMouseUp);
-    };
-  }, []);
-
-  return (
-    <div 
-      className={`cursor-dot hidden md:block ${active ? 'active' : ''}`}
-      style={{ left: `${position.x}px`, top: `${position.y}px` }}
-    />
-  );
-};
-
 const ClientLayout = ({ children }: { children: React.ReactNode }) => (
   <div className="flex flex-col min-h-screen">
     <Navbar />
@@ -78,18 +52,24 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <ScrollToTop />
-        <CursorDot />
-        
+
         <Routes>
           {/* Client Routes */}
           <Route path="/" element={<ClientLayout><Home /></ClientLayout>} />
           <Route path="/catalogue" element={<ClientLayout><Catalogue /></ClientLayout>} />
           <Route path="/configurateur" element={<ClientLayout><Configurateur /></ClientLayout>} />
           <Route path="/panier" element={<ClientLayout><Panier /></ClientLayout>} />
-          <Route path="/reparation" element={<ClientLayout><Catalogue /></ClientLayout>} /> {/* Temporary redirect */}
+          <Route path="/reparation" element={<ClientLayout><Reparation /></ClientLayout>} />
 
-          {/* Admin Routes */}
+          {/* Admin Login */}
           <Route path="/admin/login" element={<AdminLogin />} />
+
+          {/* Owner Zone — accès exclusif propriétaire */}
+          <Route path="/admin/owner" element={<OwnerLayout />}>
+            <Route index element={<OwnerDashboard />} />
+          </Route>
+
+          {/* Employee Admin Zone */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="orders" element={<Orders />} />

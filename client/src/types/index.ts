@@ -80,8 +80,20 @@ export interface AdminStats {
   revenue: number;
 }
 
-export interface Admin {
+// ─── Auth models ─────────────────────────────────────────────────────────────
+
+export interface AuthUser {
   id: number;
-  email: string;
   name: string;
+  identifier: string;
+  role: 'owner' | 'employee';
+}
+
+export interface Employee {
+  id: number;
+  nom: string;
+  prenom: string;
+  identifier: string;
+  isActive: boolean;
+  createdAt: string;
 }

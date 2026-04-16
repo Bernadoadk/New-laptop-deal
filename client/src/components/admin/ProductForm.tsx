@@ -6,10 +6,10 @@ import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
 import { Button } from '../ui/Button';
 import { Product } from '../../types';
-import { Camera, X } from 'lucide-react';
+import { Camera, X, CheckSquare, Square, Package, Type, DollarSign, Tag, Info } from 'lucide-react';
 
 const productSchema = z.object({
-  name: z.string().min(3, 'Nom trop court'),
+  name: z.string().min(3, 'Désignation trop courte'),
   category: z.string().min(1, 'Catégorie requise'),
   price: z.string().min(1, 'Prix requis'),
   description: z.string().optional(),
@@ -30,7 +30,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit,
   const [preview, setPreview] = useState<string | null>(initialData?.image || null);
   const [imageFile, setImageFile] = useState<File | null>(null);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<ProductFormData>({
+  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
     defaultValues: initialData ? {
       name: initialData.name,
@@ -45,6 +45,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit,
       isBestseller: false,
     },
   });
+
+  const isBestsellerChecked = watch('isBestseller');
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -66,84 +68,107 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit,
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
-      <div className="flex flex-col md:flex-row gap-8">
-        <div className="w-full md:w-1/3 space-y-4">
-          <label className="text-xs font-bold uppercase text-nld-muted tracking-widest">Image Produit</label>
-          <div className="relative aspect-video rounded-xl border-2 border-dashed border-border bg-bg-2 flex items-center justify-center overflow-hidden group">
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-10">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <div className="lg:col-span-4 space-y-4">
+          <label className="text-[10px] font-bold uppercase text-nld-muted tracking-[0.2em] ml-1">Vignette de Référence</label>
+          <div className="relative aspect-square rounded-[2rem] border-2 border-dashed border-white/10 bg-white/5 flex items-center justify-center overflow-hidden group transition-all hover:border-accent/30 hover:bg-white/[0.07]">
             {preview ? (
               <>
                 <img src={preview} alt="Preview" className="w-full h-full object-cover" />
-                <button 
-                  type="button" 
-                  onClick={() => { setPreview(null); setImageFile(null); }}
-                  className="absolute top-2 right-2 p-1 bg-accent-red rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  <X className="w-4 h-4" />
-                </button>
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                  <button 
+                    type="button" 
+                    onClick={() => { setPreview(null); setImageFile(null); }}
+                    className="p-4 bg-red-500 rounded-2xl text-white shadow-xl hover:scale-110 transition-transform"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
               </>
             ) : (
-              <label className="cursor-pointer flex flex-col items-center gap-2">
-                <Camera className="w-8 h-8 text-nld-muted" />
-                <span className="text-[10px] text-nld-muted font-bold uppercase">Sélectionner image</span>
+              <label className="cursor-pointer w-full h-full flex flex-col items-center justify-center gap-4 transition-transform hover:scale-105">
+                <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 text-nld-muted">
+                  <Camera className="w-6 h-6" />
+                </div>
+                <div className="text-center">
+                  <p className="text-xs font-bold text-white uppercase tracking-widest mb-1">Upload Media</p>
+                  <p className="text-[10px] text-nld-muted font-medium">PNG, JPG jusqu'à 5MB</p>
+                </div>
                 <input type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
               </label>
             )}
           </div>
         </div>
 
-        <div className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Input label="Nom du Produit" {...register('name')} error={errors.name?.message} />
+        <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <Input label="Désignation Commerciale" placeholder="ex: ASUS ROG Zephyrus G14" {...register('name')} error={errors.name?.message} />
           <Select 
-            label="Catégorie" 
+            label="Segment Catalogue" 
             options={[
-              { value: 'Setup Gaming', label: 'Setup Gaming' },
-              { value: 'Laptop', label: 'Laptop' },
-              { value: 'Périphériques', label: 'Périphériques' },
-              { value: 'Réparation', label: 'Réparation' },
-              { value: 'Accessoires', label: 'Accessoires' },
+              { value: 'Setup Gaming', label: 'Setup Gaming (Complet)' },
+              { value: 'Laptop', label: 'Ordinateur Portable' },
+              { value: 'Périphériques', label: 'Composants & Périphs' },
+              { value: 'Réparation', label: 'Maintenance Service' },
+              { value: 'Accessoires', label: 'Accessoires Elite' },
             ]} 
             {...register('category')} 
             error={errors.category?.message} 
           />
-          <Input label="Prix (FCFA)" type="number" {...register('price')} error={errors.price?.message} />
+          <Input label="Prix de Vente (FCFA)" type="number" placeholder="0" {...register('price')} error={errors.price?.message} />
           <Select 
-            label="Badge" 
+            label="Marquage Marketing" 
             options={[
-              { value: '', label: 'Aucun' },
-              { value: 'new', label: 'NEW' },
-              { value: 'hot', label: 'HOT' },
-              { value: 'top', label: 'TOP GEAR' },
+              { value: '', label: 'Valeur Standard' },
+              { value: 'new', label: 'NEW ARRIVAL' },
+              { value: 'hot', label: 'HOT DEAL' },
+              { value: 'top', label: 'PREMIUM CHOICE' },
             ]} 
             {...register('badge')} 
           />
           <Select 
-            label="Statut Stock" 
+            label="Statut Logistique" 
             options={[
-              { value: 'instock', label: 'En Stock' },
-              { value: 'lowstock', label: 'Stock Faible' },
-              { value: 'outofstock', label: 'En Rupture' },
+              { value: 'instock', label: 'Disponible en Stock' },
+              { value: 'lowstock', label: 'Alerte Stock Faible' },
+              { value: 'outofstock', label: 'Rupture de Stock' },
             ]} 
             {...register('stock')} 
           />
-          <div className="flex items-center gap-2 pt-8">
-            <input type="checkbox" id="isBestseller" {...register('isBestseller')} className="w-5 h-5 accent-accent" />
-            <label htmlFor="isBestseller" className="text-sm font-bold uppercase text-white cursor-pointer">Best Seller</label>
+          <div className="flex items-end pb-2">
+            <button
+              type="button"
+              onClick={() => setValue('isBestseller', !isBestsellerChecked)}
+              className="flex items-center gap-3 group w-full p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-accent/30 transition-all"
+            >
+              {isBestsellerChecked ? (
+                <div className="w-6 h-6 rounded-lg bg-accent flex items-center justify-center text-white"><CheckSquare className="w-4 h-4" /></div>
+              ) : (
+                <div className="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center text-nld-muted"><Square className="w-4 h-4" /></div>
+              )}
+              <span className="text-xs font-bold uppercase text-white tracking-widest">Mettre en avant (Best Seller)</span>
+            </button>
+            <input type="checkbox" className="hidden" {...register('isBestseller')} />
           </div>
         </div>
       </div>
 
-      <div className="space-y-1.5">
-        <label className="text-xs font-bold uppercase text-nld-muted tracking-widest">Description</label>
+      <div className="space-y-4">
+        <label className="text-[10px] font-bold uppercase text-nld-muted tracking-[0.2em] ml-1">Spécifications Techniques & Description</label>
         <textarea
-          className="w-full bg-bg-2 border border-border px-4 py-2.5 rounded-lg focus:outline-none focus:border-accent transition-colors text-nld-text min-h-[120px]"
+          placeholder="Décrivez les points clés de cette référence..."
+          className="w-full bg-white/5 border border-white/10 px-6 py-5 rounded-3xl focus:outline-none focus:border-accent/40 focus:bg-white/10 transition-all text-white font-medium placeholder:text-nld-muted/40 min-h-[160px] scrollbar-hide"
           {...register('description')}
         />
       </div>
 
-      <div className="flex justify-end pt-6 border-t border-border">
-        <Button size="lg" type="submit" isLoading={isLoading} className="px-12">
-          {initialData ? 'METTRE À JOUR' : 'CRÉER LE PRODUIT'}
+      <div className="flex flex-col sm:flex-row justify-between items-center pt-10 border-t border-white/5 gap-6">
+        <div className="flex items-center gap-3 text-nld-muted/40 italic text-xs">
+          <Info className="w-4 h-4" />
+          Vérifiez les données avant la publication finale.
+        </div>
+        <Button size="lg" type="submit" isLoading={isLoading} className="px-16 py-5 shadow-premium-glow rounded-2xl w-full sm:w-auto">
+          {initialData ? 'METTRE À JOUR LE DOSSIER' : 'PUBLIER LA RÉFÉRENCE'}
         </Button>
       </div>
     </form>

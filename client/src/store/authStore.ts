@@ -1,21 +1,25 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Admin } from '../types';
+import { AuthUser } from '../types';
 
 interface AuthState {
   token: string | null;
-  admin: Admin | null;
-  setAuth: (token: string, admin: Admin) => void;
+  user: AuthUser | null;
+  setAuth: (token: string, user: AuthUser) => void;
   logout: () => void;
+  isOwner: () => boolean;
+  isEmployee: () => boolean;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       token: null,
-      admin: null,
-      setAuth: (token, admin) => set({ token, admin }),
-      logout: () => set({ token: null, admin: null }),
+      user: null,
+      setAuth: (token, user) => set({ token, user }),
+      logout: () => set({ token: null, user: null }),
+      isOwner: () => get().user?.role === 'owner',
+      isEmployee: () => get().user?.role === 'employee',
     }),
     {
       name: 'nld-auth',

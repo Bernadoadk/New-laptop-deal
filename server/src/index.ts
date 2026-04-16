@@ -9,6 +9,7 @@ import productRoutes from './routes/products.routes';
 import orderRoutes from './routes/orders.routes';
 import componentRoutes from './routes/components.routes';
 import presetRoutes from './routes/presets.routes';
+import employeeRoutes from './routes/employees.routes';
 import { errorHandler } from './middleware/errorHandler';
 
 dotenv.config();
@@ -36,6 +37,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/components', componentRoutes);
 app.use('/api/presets', presetRoutes);
+app.use('/api/employees', employeeRoutes);
 
 // Error Handling
 app.use(errorHandler);

@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
@@ -6,17 +7,23 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Seeding database...');
 
-  // 1. Admin
-  const hashedPassword = await bcrypt.hash('Admin@2026', 10);
-  await prisma.admin.upsert({
-    where: { email: 'admin@newlaptopdeal.com' },
+  // 1. Owner
+  const ownerSecret = process.env.OWNER_SECRET || 'NLD2026';
+  const ownerIdentifier = `@${ownerSecret.toLowerCase()}.owner`;
+  const hashedOwnerPassword = await bcrypt.hash('Owner@2026!', 12);
+
+  await prisma.owner.upsert({
+    where: { identifier: ownerIdentifier },
     update: {},
     create: {
-      email: 'admin@newlaptopdeal.com',
-      password: hashedPassword,
+      identifier: ownerIdentifier,
+      password: hashedOwnerPassword,
       name: 'New Laptop Deal',
     },
   });
+
+  console.log(`✅ Owner créé : ${ownerIdentifier} (mot de passe: Owner@2026!)`);
+
 
   // 2. Products
   const products = [
@@ -25,7 +32,7 @@ async function main() {
       category: 'Setup Gaming',
       description: 'L\'ultime machine de guerre pour les streamers et pros. Performance sans compromis avec refroidissement liquide.',
       price: 1250000,
-      image: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d2?w=600&q=80',
+      image: '/battlestation_pro_x.png',
       badge: 'top',
       isBestseller: true,
       stock: 'instock',
@@ -75,7 +82,7 @@ async function main() {
       category: 'Accessoires',
       description: 'Carte graphique de dernière génération pour du gaming en 4K fluide.',
       price: 520000,
-      image: 'https://images.unsplash.com/photo-1593640408182-31c4de9fd4f0?w=600&q=80',
+      image: '/premium_gpu_hero.png',
       badge: 'hot',
       isBestseller: false,
       stock: 'instock',
@@ -142,8 +149,10 @@ async function main() {
     },
   ];
 
-  for (const p of products) {
-    await prisma.product.create({ data: p });
+  if ((await prisma.product.count()) === 0) {
+    for (const p of products) {
+      await prisma.product.create({ data: p });
+    }
   }
 
   // 3. Component Categories and Options
@@ -253,18 +262,20 @@ async function main() {
     },
   ];
 
-  for (const cat of categories) {
-    await prisma.componentCategory.create({
-      data: {
-        key: cat.key,
-        label: cat.label,
-        emoji: cat.emoji,
-        sortOrder: cat.sortOrder,
-        options: {
-          create: cat.options,
+  if ((await prisma.componentCategory.count()) === 0) {
+    for (const cat of categories) {
+      await prisma.componentCategory.create({
+        data: {
+          key: cat.key,
+          label: cat.label,
+          emoji: cat.emoji,
+          sortOrder: cat.sortOrder,
+          options: {
+            create: cat.options,
+          },
         },
-      },
-    });
+      });
+    }
   }
 
   // 4. Presets
@@ -278,25 +289,27 @@ async function main() {
     { key: 'ultra', label: 'ULTRA PRO', emoji: '👑', sortOrder: 3, optionNames: ultraProOptions },
   ];
 
-  for (const p of presets) {
-    const preset = await prisma.setupPreset.create({
-      data: {
-        key: p.key,
-        label: p.label,
-        emoji: p.emoji,
-        sortOrder: p.sortOrder,
-      },
-    });
+  if ((await prisma.setupPreset.count()) === 0) {
+    for (const p of presets) {
+      const preset = await prisma.setupPreset.create({
+        data: {
+          key: p.key,
+          label: p.label,
+          emoji: p.emoji,
+          sortOrder: p.sortOrder,
+        },
+      });
 
-    for (const optName of p.optionNames) {
-      const option = await prisma.componentOption.findFirst({ where: { name: optName } });
-      if (option) {
-        await prisma.setupPresetItem.create({
-          data: {
-            presetId: preset.id,
-            optionId: option.id,
-          },
-        });
+      for (const optName of p.optionNames) {
+        const option = await prisma.componentOption.findFirst({ where: { name: optName } });
+        if (option) {
+          await prisma.setupPresetItem.create({
+            data: {
+              presetId: preset.id,
+              optionId: option.id,
+            },
+          });
+        }
       }
     }
   }
@@ -387,20 +400,22 @@ async function main() {
     },
   ];
 
-  for (const o of orders) {
-    const order = await prisma.order.create({ data: o });
-    // Add one item per order for simplicity in seed
-    const product = await prisma.product.findFirst();
-    if (product) {
-      await prisma.orderItem.create({
-        data: {
-          orderId: order.id,
-          productId: o.type === 'product' ? product.id : null,
-          name: o.type === 'product' ? product.name : 'Custom Setup Build',
-          price: o.totalAmount,
-          quantity: 1,
-        },
-      });
+  if ((await prisma.order.count()) === 0) {
+    for (const o of orders) {
+      const order = await prisma.order.create({ data: o });
+      // Add one item per order for simplicity in seed
+      const product = await prisma.product.findFirst();
+      if (product) {
+        await prisma.orderItem.create({
+          data: {
+            orderId: order.id,
+            productId: o.type === 'product' ? product.id : null,
+            name: o.type === 'product' ? product.name : 'Custom Setup Build',
+            price: o.totalAmount,
+            quantity: 1,
+          },
+        });
+      }
     }
   }
 

@@ -1,22 +1,48 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-interface AuthRequest extends Request {
-  adminId?: number;
+export interface AuthRequest extends Request {
+  userId?: number;
+  userRole?: 'owner' | 'employee';
 }
 
-export const protect = (req: AuthRequest, res: Response, next: NextFunction) => {
-  const token = req.headers.authorization?.split(' ')[1];
+interface JwtPayload {
+  id: number;
+  role: 'owner' | 'employee';
+}
 
-  if (!token) {
-    return res.status(401).json({ message: 'Not authorized, no token' });
+// ─── Protect: vérifie le JWT et attache userId + userRole ──────────────────
+export const protect = (req: AuthRequest, res: Response, next: NextFunction): void => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    res.status(401).json({ message: 'Non autorisé — token manquant.' });
+    return;
   }
+
+  const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as { id: number };
-    req.adminId = decoded.id;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+
+    if (!decoded.id || !decoded.role) {
+      res.status(401).json({ message: 'Token invalide.' });
+      return;
+    }
+
+    req.userId = decoded.id;
+    req.userRole = decoded.role;
     next();
   } catch (error) {
-    res.status(401).json({ message: 'Not authorized, token failed' });
+    res.status(401).json({ message: 'Non autorisé — token expiré ou invalide.' });
   }
+};
+
+// ─── RequireOwner: bloque les non-owners ───────────────────────────────────
+export const requireOwner = (req: AuthRequest, res: Response, next: NextFunction): void => {
+  if (req.userRole !== 'owner') {
+    res.status(403).json({ message: 'Accès refusé — réservé au propriétaire.' });
+    return;
+  }
+  next();
 };

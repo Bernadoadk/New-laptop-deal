@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../ui/Button';
-import { Shield, Settings, Info } from 'lucide-react';
+import { Shield, Settings, Info, ShoppingCart, MessageSquare } from 'lucide-react';
 
 interface SummaryPanelProps {
   total: number;
@@ -14,48 +14,56 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ total, selections, o
   };
 
   return (
-    <div className="glass-panel p-6 sticky top-24 border-accent/20">
-      <h2 className="text-xl font-bold mb-6 border-b border-border pb-4">RÉSUMÉ DU BUILD</h2>
+    <div className="premium-card p-8 border-accent/20">
+      <div className="flex items-center gap-3 mb-8 pb-4 border-b border-white/5">
+        <ShoppingCart className="w-5 h-5 text-accent" />
+        <h2 className="text-xl font-bold text-white tracking-tight">VOTRE CONFIGURATION</h2>
+      </div>
       
-      <div className="space-y-4 mb-8 max-h-[40vh] overflow-y-auto pr-2">
+      <div className="space-y-4 mb-10 max-h-[40vh] overflow-y-auto pr-3 scrollbar-hide">
         {selections.map((opt, i) => (
-          <div key={i} className="flex justify-between items-start text-sm">
-            <span className="text-nld-muted2 flex-grow pr-4">{opt.name}</span>
-            <span className="text-white font-mono whitespace-nowrap">{formatPrice(opt.price)}</span>
+          <div key={i} className="flex justify-between items-start text-sm group">
+            <span className="text-nld-muted group-hover:text-white transition-colors flex-grow pr-4">{opt.name}</span>
+            <span className="text-white font-mono font-medium whitespace-nowrap">{formatPrice(opt.price)}</span>
           </div>
         ))}
-        <div className="flex justify-between items-start text-sm pt-2 border-t border-border/50">
-          <span className="text-nld-muted2">Assemblage & Optimisation</span>
-          <span className="text-white font-mono">{formatPrice(25000)}</span>
+        <div className="flex justify-between items-start text-sm pt-4 border-t border-white/5">
+          <span className="text-nld-muted italic">Assemblage & Optimisation Pro</span>
+          <span className="text-white font-mono font-medium">{formatPrice(25000)}</span>
         </div>
       </div>
 
-      <div className="bg-bg-2 p-4 rounded-lg mb-8 border border-border">
-        <div className="flex justify-between items-center mb-1">
-          <span className="text-xs font-bold uppercase text-accent">Total Estimé</span>
-          <span className="text-2xl font-black text-white">{formatPrice(total + 25000)}</span>
+      <div className="bg-white/5 p-6 rounded-2xl mb-10 border border-white/5 shadow-inner">
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-[10px] font-bold uppercase text-accent tracking-[0.2em]">Total Final</span>
+          <span className="text-3xl font-black text-white tracking-tighter">{formatPrice(total + 25000)}</span>
         </div>
-        <p className="text-[10px] text-nld-muted text-right italic">TVA incluse. Prix de base indicatif.</p>
+        <p className="text-[10px] text-nld-muted text-right italic opacity-60">Livraison estimée sous 72h-96h</p>
       </div>
 
-      <div className="space-y-3 mb-8">
-        <div className="flex items-center gap-2 text-xs text-nld-muted2">
-          <Shield className="w-4 h-4 text-accent-green" />
-          Garantie matérielle 6 mois incluse
+      <div className="space-y-4 mb-10">
+        <div className="flex items-center gap-3 text-xs text-nld-muted font-medium py-1 px-3 bg-emerald-500/5 rounded-xl border border-emerald-500/10">
+          <Shield className="w-4 h-4 text-emerald-400" />
+          Garantie premium 6 mois incluse
         </div>
-        <div className="flex items-center gap-2 text-xs text-nld-muted2">
+        <div className="flex items-center gap-3 text-xs text-nld-muted font-medium py-1 px-3 bg-accent/5 rounded-xl border border-accent/10">
           <Settings className="w-4 h-4 text-accent" />
-          Windows 11 Pro pré-installé
+          Windows 11 Pro & Drivers optimisés
         </div>
-        <div className="flex items-center gap-2 text-xs text-nld-muted2">
-          <Info className="w-4 h-4 text-accent-yellow" />
-          Délai de montage : 2-3 jours
+        <div className="flex items-center gap-3 text-xs text-nld-muted font-medium py-1 px-3 bg-amber-500/5 rounded-xl border border-amber-500/10">
+          <Info className="w-4 h-4 text-amber-400" />
+          Service Après-Vente Prioritaire
         </div>
       </div>
 
-      <div className="space-y-4">
-        <Button size="lg" className="w-full" onClick={onOrder}>COMMANDER CE SETUP</Button>
-        <Button variant="outline" className="w-full">NÉGOCIER LE PRIX</Button>
+      <div className="flex flex-col gap-4">
+        <Button size="lg" className="w-full shadow-premium-glow" onClick={onOrder}>
+          VALIDER LA COMMANDE
+        </Button>
+        <Button variant="outline" className="w-full group">
+          <MessageSquare className="w-4 h-4 mr-2 opacity-60 group-hover:opacity-100 transition-opacity" />
+          DEMANDER UN DEVIS
+        </Button>
       </div>
     </div>
   );
